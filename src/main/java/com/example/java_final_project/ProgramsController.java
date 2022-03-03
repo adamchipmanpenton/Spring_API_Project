@@ -11,13 +11,22 @@ public class ProgramsController {
     @Autowired
     private ProgramRepository programRepository;
 
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private GradesRepository gradesRepository;
+
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
+
     @PostMapping("/add")
     public @ResponseBody String addProgram(@RequestParam String programName, @RequestParam String campus){
         Programs pro = new Programs();
         pro.setProgramName(programName);
         pro.setCampus(campus);
         programRepository.save(pro);
-        return "Added program was added to the education system.";
+        return programName + " was added to the education system.";
     }
     @GetMapping("/find/all")
     public Iterable<Programs> getPrograms(){ return programRepository.findAll();}
@@ -25,6 +34,9 @@ public class ProgramsController {
     public Programs findProgramByID(@PathVariable Integer pid){return programRepository.findProgramsByPid(pid);}
     @DeleteMapping("/delete/{pid}")
     public String deleteProgram(@PathVariable Integer pid){
+        gradesRepository.deleteGrades( courseRepository.findCourses(pid));
+        enrollmentRepository.deleteEnrollments(courseRepository.findCourses(pid));
+        courseRepository.deleteCourse(pid);
         programRepository.deleteById(pid);
         return "Program " + pid + " was deleted.";}
     @PutMapping("/modify")

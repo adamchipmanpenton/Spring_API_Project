@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface StudentRepository extends CrudRepository<Student, Integer>{
 
-    Student findStudentById(Integer id);
+    Student findStudentByStudentId(Integer studentId);
     Student findStudentByFirstName(String firstName);
     Student findStudentByLastName(String lastName);
     Student findStudentByEmail(String email);
@@ -12,5 +12,5 @@ public interface StudentRepository extends CrudRepository<Student, Integer>{
     Student findStudentByCity(String city);
     Student findStudentByPostal(String postal);
     Student findStudentByPhone(String phone);
-    void deleteById(Integer id);
+    void deleteById(Integer studentId);
 }

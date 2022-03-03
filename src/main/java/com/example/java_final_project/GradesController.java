@@ -19,7 +19,7 @@ public class GradesController {
         grades.setCourseId(courseId);
         grades.setGrade(grade);
         gradesRepository.save(grades);
-        return "Added grades to the education system.";
+        return "Added grade to the education system.";
     }
 
     @GetMapping("/find/all")

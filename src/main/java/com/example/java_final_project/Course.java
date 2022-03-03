@@ -15,7 +15,7 @@ public class Course {
     private Integer capacity;
     private Integer year;
     private String semester;
-    private String paid;
+    private int pid;
 
     public Integer getCourseId() {
         return courseId;
@@ -65,11 +65,11 @@ public class Course {
         this.semester = semester;
     }
 
-    public String getPaid() {
-        return paid;
+    public int getPid() {
+        return pid;
     }
 
-    public void setPaid(String paid) {
-        this.paid = paid;
+    public void setPid(int pid) {
+        this.pid = pid;
     }
 }

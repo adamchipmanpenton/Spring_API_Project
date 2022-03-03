@@ -10,6 +10,10 @@ public class StudentController {
 
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
+    @Autowired
+    private GradesRepository gradesRepository;
 
     @PostMapping("/add")
     public @ResponseBody String addStudent(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String address, @RequestParam String city, @RequestParam String postal, @RequestParam String phone  ) {
@@ -22,20 +26,22 @@ public class StudentController {
         student.setPostal(postal);
         student.setPhone(phone);
         studentRepository.save(student);
-        return "Added student to the education system.";
+        return firstName + " " + lastName + " to the education system.";
     }
 
     @GetMapping("/find/all")
     public Iterable<Student> getStudents(){ return studentRepository.findAll();}
-    @GetMapping("/find/{id}")
-    public Student findStudentByID(@PathVariable Integer studentId){return studentRepository.findStudentById(studentId);}
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/find/{studentId}")
+    public Student findStudentByID(@PathVariable Integer studentId){return studentRepository.findStudentByStudentId(studentId);}
+    @DeleteMapping("/delete/{studentId}")
     public String deleteStudent(@PathVariable Integer studentId){
+        enrollmentRepository.deleteStudent(studentId);
+        gradesRepository.deleteStudent(studentId);
         studentRepository.deleteById(studentId);
         return "Student " + studentId + " was deleted.";}
     @PutMapping("/modify")
     public Student modifyStudent(@RequestParam Integer studentId, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String address, @RequestParam String city, @RequestParam String postal, @RequestParam String phone ){
-        Student modifyStudent =  studentRepository.findStudentById(studentId);
+        Student modifyStudent =  studentRepository.findStudentByStudentId(studentId);
         modifyStudent.setFirstName(firstName);
         modifyStudent.setLastName(lastName);
         modifyStudent.setEmail(email);
